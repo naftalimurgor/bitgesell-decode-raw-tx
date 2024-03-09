@@ -91,7 +91,7 @@ Decoded to:
 ```
 ![screenshot](./doc/usage.png)
 
-Try it out: 
+Try it out: https://bgl-decode-tx.netlify.app/
 
 ## Contribution
 
