@@ -107,10 +107,10 @@
           <textarea name="DecodedTx" id="jsonTx" cols="40" rows="10"></textarea>
         </div>
         <div class="my-3">
-          <select name="network" id="">
+          <select name="network" id="network">
             <option value="mainnet">Bitgesell Mainnet</option>
+            <option value="testnet">Bitgesell Testnet</option>
           </select>
-
         </div>
         <div class="mx-auto">
           <button class="btn btn-primary" onclick="decodeRawTx()">
@@ -144,12 +144,23 @@
     })()
 
     function decodeRawTx() {
-      const txHexField = document.getElementById('txHex')
-      const txHexValue = txHexField.value
-      const txObject = new window.Transaction({ rawTx: txHexValue })
+      try {
+        const network = document.querySelector('#network')
+        const selectedNetwork = network.value
+        console.log(selectedNetwork)
 
-      document.getElementById('jsonTx').value = prettifyJson(txObject.json())
+        const txHexField = document.getElementById('txHex')
+        const txHexValue = String(txHexField.value).trim()
 
+        const txObject = new window.Transaction({
+          rawTx: txHexValue,
+          testnet: selectedNetwork === 'mainnet' ? false : true
+        })
+
+        document.getElementById('jsonTx').value = prettifyJson(txObject.json())
+      } catch (error) {
+        alert("Error: Failed to decode Transaction, ensure Tx is in Hex Format")
+      }
     }
 
     function prettifyJson(json) {
